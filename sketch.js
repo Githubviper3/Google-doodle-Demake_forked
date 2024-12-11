@@ -1,7 +1,37 @@
-function setup() {
-  createCanvas(400, 400);
+import Rect from "./classes/rect.js";
+let squares;
+function createGrid(p5, startPos, distance) {
+  let squareArray = [];
+  distance+= 50
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      let x = startPos[0] + distance * i; 
+      let y = startPos[1] + distance * j; 
+      squareArray.push(new Rect(p5, [x, y]));
+    }
+  }
+  
+  return squareArray;
 }
 
-function draw() {
-  background(220);
-}
+
+
+new p5(function(p5){
+
+p5.setup = function() {
+  p5.createCanvas(400, 400);
+  squares= createGrid(p5,[115,115],10)
+
+  let firstposition = squares[0].position.array()
+  let lastposition = [squares[squares.length-1].right,squares[squares.length-1].bottom]
+  console.log(firstposition,lastposition)
+  }
+
+ p5.draw = function() {
+  p5.background("#0000B0");
+  squares.forEach(square => {
+    square.draw(p5)
+  });
+
+
+}})
