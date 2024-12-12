@@ -21,6 +21,13 @@ export default class Rect {
     get_center(p5){
       return p5.createVector(...[this.left+ (this.width/2),this.top+ (this.height/2)])
     }
+    collidemouse(p5){
+      if (this.right > p5.mouseX && this.left < p5.mouseX +12  && this.bottom > p5.mouseY && this.top < p5.mouseY + 18) 
+        {
+        return true;
+      }
+      return false;
+    }
     update(new_position){
       this.position.set(...new_position)
       this.top = this.position.y
