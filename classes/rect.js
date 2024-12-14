@@ -1,5 +1,5 @@
 export default class Rect {
-    constructor(p5,position,size = [50,50],color=[9,7,140],border = 1){
+    constructor(p5,position = [0,0],size = [50,50],color=[9,7,140],border = 1){
       this.position= p5.createVector(...position)
       this.top = this.position.y
       this.left = this.position.x;
@@ -36,7 +36,9 @@ export default class Rect {
       this.right = this.left + this.width;
     }
 
-   
+    lock_onto_mouse(){
+      
+    }  
   
     draw(p5) {
       p5.fill(this.color);

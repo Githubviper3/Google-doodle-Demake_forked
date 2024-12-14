@@ -1,6 +1,6 @@
 import Rect from "./classes/rect.js";
-let squares;
-
+let squares,card;
+let mousepressed = false;
 
 
 function createGrid(p5, startPos, distance) {
@@ -20,12 +20,11 @@ function createGrid(p5, startPos, distance) {
 }
 
 
-
 new p5(function(p5){
-
-p5.setup = function() {
+  p5.setup = function() {
   p5.createCanvas(400, 400);
   squares= createGrid(p5,[125,125],30)
+  card = new Rect(p5,[0,0])
   // let firstposition = squares[0].position.array()
   // let lastposition = [squares[squares.length-1].right,squares[squares.length-1].bottom]
   // console.log(firstposition,lastposition)
@@ -42,8 +41,10 @@ p5.setup = function() {
       square.color = [9,7,140]
     }
     square.draw(p5)
-  });
-
+  }); 
+  card.draw(p5)
+  
+  
 
 
 }})
