@@ -1,5 +1,5 @@
-import Rect from "./classes/Rect.js";
 import Card from "./classes/Card.js";
+import Rect from "./classes/Rect.js";
 let squares,card;
 
 

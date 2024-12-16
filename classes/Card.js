@@ -1,4 +1,4 @@
-import Rect from "./Rect.js";
+import Rect from "./Rect.js"
 export default class Card extends Rect{
     constructor(p5,position = [0,0],size = [50,50],color=[9,7,140],border = 1){
       super(p5,position,size,color,border)
