@@ -19,17 +19,22 @@ export default class Game{
     }
     setup(p5){
         this.createGrid(p5,[105,105],30)
-
-        let firstposition = this.gridrects[0].position.array()
-        let lastposition = [this.gridrects[this.gridrects.length-1].right,this.gridrects[this.gridrects.length-1].bottom]
-        console.log(firstposition,lastposition)
+        
+        // let firstposition = this.gridrects[0].position.array()
+        // let lastposition = [this.gridrects[this.gridrects.length-1].right,this.gridrects[this.gridrects.length-1].bottom]
+        // console.log(firstposition,lastposition)
     }
     
     render(p5){
       this.gridrects.forEach(square => {
+        if (square.colliderect(this.card) && !p5.mouseIsPressed){
+          let position = square.get_center(p5).array()
+          this.card.lock_to_center(...position)
+          this.card.clicked= false
+        }
         square.draw(p5)
       }); 
-    
+      
       this.card.draw(p5)
       
     }

@@ -14,7 +14,7 @@ export default class Card extends Rect{
     }
   
     
-    update_by_center(centerX,centerY){
+    lock_to_center(centerX,centerY){
       let x = centerX - this.width/2
       let y = centerY - this.height/2
       this.update([x,y])
@@ -32,8 +32,9 @@ export default class Card extends Rect{
     draw(p5){
       this.hoverHandler(p5)
       if (this.clicked){
-        this.update_by_center(p5.mouseX,p5.mouseY)
+        this.lock_to_center(p5.mouseX,p5.mouseY)
       }
+      
       super.draw(p5)
   
     }
