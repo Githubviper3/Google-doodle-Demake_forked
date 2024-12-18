@@ -6,7 +6,7 @@ export default class Card extends Rect{
     }
     
     collidemouse(p5){
-      if (this.right > p5.mouseX && this.left < p5.mouseX +12  && this.bottom > p5.mouseY && this.top < p5.mouseY + 18) 
+      if (this.right > p5.mouseX -6 && this.left < p5.mouseX +6  && this.bottom > p5.mouse - 9 && this.top < p5.mouseY + 9) 
         {
         return true;
       }
