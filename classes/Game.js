@@ -31,11 +31,18 @@ class Game {
     this.lines = [];
     this.gridrects = [];
     this.cards = [];
+    this.aicards = [];
+    this.aicardtargets = {};
     this.selected;
     this.position;
     this.lock;
-    this.graphgrid = [];
+    this.users_turn =true;
+    this.graphgrid = {};
+    this.gridpositions= [];
     this.lockstates = {};
+    this.gridstate = {};
+    this.selectedAI;
+    this.readyAI = false;
     this.skip = false;
     this.graphform = {
       "a": ["b", "d"],
@@ -82,8 +89,9 @@ class Game {
       for (let j = 0; j < height; j++) {
         let x = startPos[0] + distance * i;
         let y = startPos[1] + distance * j;
-        let grid_rect = new Rect({ position: [x, y], size: [30, 30],data: graphpositions[j][i]});
-        this.graphgrid[grid_rect.data] = grid_rect.get_center().array();
+        let grid_rect = new Rect({ position: [x, y], size: [30, 30],border:1,data: graphpositions[j][i]});
+        this.graphgrid[grid_rect.data] = grid_rect.get_center();
+        this.gridpositions.push(grid_rect.get_center())
         this.gridrects.push(grid_rect);
       }
     }
@@ -110,9 +118,12 @@ class Game {
   setup() {
     this.createGrid([125, 125], 30);
     this.createlines();
-    this.cards.push(new Rect({ position: [0, 0],data:"1" }));
-    this.cards.push(new Rect({ position: [100, 0],data:"2" }));
-    this.cards.push(new Rect({ position: [200, 0],data:"3" }));
+    this.aicards.push(new Rect({ position: [0, 0],data:"1" ,color:"red"}));
+    this.aicards.push(new Rect({ position: [100,0],data:"2",color:"red" }));
+    this.aicards.push(new Rect({ position: [200,0],data:"3" ,color:"red"}));
+    this.cards.push(new Rect({ position: [0, 300],data:"1",border:1}));
+    this.cards.push(new Rect({ position: [100, 300],data:"2",border:1 }));
+    this.cards.push(new Rect({ position: [200, 300],data:"3",border:1 }));
 
     
 
@@ -126,7 +137,7 @@ class Game {
     push();
     fill("white");
     let [x, y] = this.graphgrid[square.data];
-    text(`${x},${y}`, x, y);
+    text(`${square.data}`, x, y);
     pop();
   }
 
@@ -142,22 +153,31 @@ class Game {
 
     this.gridrects.forEach((square) => {
       square.draw();
-      // this.displaygraphpositions(square);
+      this.displaygraphpositions(square);
+      if (this.users_turn){
       if (square.active && this.selected && !this.selected.active) {
         if (this.selected.colliderect(square)) {
           this.position = this.graphgrid[square.data];
+          this.gridstate[square.data] = this.selected.data
           this.skip = false;
+
+
         }
       }
+    }
     });
-
+    
     this.cards.forEach((card) => {
-      if (!this.lockstates[card.data]) {
+
+      if (this.users_turn){
+      
         if (card === this.selected) {
           if (!this.skip) {
             card.lock_to_center(this.position);
             card.active = false;
             this.lockstates[card.data] = true;
+            this.selectedAI  = false
+            this.users_turn = false
             this.lock = false;
           } else {
             card.lock_to_center(mouseX, mouseY);
@@ -170,8 +190,28 @@ class Game {
           }
         }
       }
-
       card.draw();
     });
+
+    this.aicards.forEach((card) => {
+      if (!this.users_turn){
+        if (!this.selectedAI){
+          this.selectedAI =this.aicards[parseInt(Math.random()*this.aicards.length)]
+        } else
+        if (card === this.selectedAI){
+          let randomindex = parseInt(Math.random()*this.aicards.length)
+          card.lock_to_center(this.gridpositions[randomindex])
+          this.selectedAI = false
+          this.users_turn = true
+        }
+  
+      }
+      
+
+
+      card.draw()
+    })
+
+
   }
 }

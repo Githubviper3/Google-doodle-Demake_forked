@@ -1,5 +1,5 @@
 class Rect {
-    constructor({position = [0,0],size = [50,50],color=[9,7,140],border =1,data=null}) {
+    constructor({position = [0,0],size = [50,50],color=[9,7,140],border =0,data=null}) {
       this.position= createVector(...position)
       this.top = this.position.y
       this.left = this.position.x;
@@ -37,7 +37,11 @@ class Rect {
 
 
     get_center(){
-      return createVector(...[this.left+ (this.width/2),this.top+ (this.height/2)])
+      return [this.left+ (this.width/2),this.top+ (this.height/2)]
+    }
+
+    get_center_vector(){
+      return createVector(...this.get_center())
     }
 
 
@@ -55,10 +59,15 @@ class Rect {
 
   
     draw() {
+      push()
       fill(this.color);
       strokeWeight(this.strokeWeight);
+      
       this.active = mouseIsPressed && this.mouseHover()
       rect(this.position.x,this.position.y,this.width,this.height); 
+      pop()
     }
+
+    
   }
 

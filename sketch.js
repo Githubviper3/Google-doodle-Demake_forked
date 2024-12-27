@@ -7,5 +7,5 @@ function setup() {
 
 function draw() {
   background("#0000B0");
-  game.render();
+  game.render()
 }
