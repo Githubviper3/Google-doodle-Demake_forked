@@ -1,17 +1,11 @@
-import Game from "./classes/Game.js";
 let game = new Game();
-new p5(function(p5){
-  
-  
-  p5.setup = function() {
-  p5.createCanvas(400, 400);
-  game.setup(p5)
-  }
 
- p5.draw = function() {
-  p5.background("#0000B0");
-  game.render(p5)
-  
+function setup() {
+  createCanvas(400, 400);
+  game.setup();
+}
 
-
-}})
+function draw() {
+  background("#0000B0");
+  game.render();
+}
